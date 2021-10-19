@@ -6,20 +6,83 @@ hide circle
 ' avoid problems with angled crows feet
 skinparam linetype ortho
 
-entity "TipoGrupoUsuario" as tipogrupousuario {
+' entity "TipoGrupoUsuario" as tipogrupousuario {
+'  *id : number <<PK>>
+'  --
+'  *sigla : char(3) <<PK>>
+'  *descricao : vachar(100)
+' }
+
+' entity "GrupoUsuario" as grupousuario {
+'  *id : number <<PK>>
+'  --
+'  *id_tipo : number <<FK>>
+'  *descricao : varchar(100)
+' }
+
+entity "Usuario" as usuario {
   *id : number <<PK>>
   --
-  *descricao : text
-  *sigla : char(3)
+  *nome : varchar(255)
+  *telefone : varchar(15)
+  *email : varchar(255)
+  *senha : varchar(100)
+  *data_nascimento : date
+'  *grupo : number <<FK>>
 }
 
-entity "GrupoUsuario" as grupousuario {
+' entity "TipoConta" as tipoconta {
+'  *id : number <<PK>>
+'  --
+'  *tipo : tinyint(3) <<PK>>
+'  *descricao : varchar(100)
+' }
+
+entity "Conta" as conta {
+  *id : number <<PK>>
+  *numero : varchar(255) <<PK>>
+  --
+  *agencia : number
+  *id_banco : number <<FK>>
+  *tipo : tinyint(3)
+  *descricao : varchar(100)
+  *id_usuario : number <<FK>>
+  *saldo : decimal(15,2)
+  *data_criacao : datetime
+}
+
+
+entity "Banco" as banco {
+  *id : number <<PK>>
+  *codigo : number <<PK>>
+  --
+  *nome : varchar(255)
+}
+
+
+entity "Titulos" as titulos {
   *id : number <<PK>>
   --
-  *descricao : text
-  *id_tipo : number
+  *descricao : varchar(255)
+  *tipo : tinyint(2)
+  *valor : decimal(12,2)
+  *data_lancamento : datetime
+  *data_vencimento : date
+  *id_conta : number <<FK>>
 }
 
-grupousuario }|..|| tipogrupousuario
+entity "CategoriaTitulo" as categoriatitulo {
+  *id : number <<PK>>
+  --
+  *descricao : varchar(255)
+}
+
+' grupousuario }|..|| tipogrupousuario
+' usuario }|..|| grupousuario
+' conta }|..|| tipoconta
+usuario ||..|{ conta
+conta }|..|| banco
+conta ||..|{ titulos
+titulos }|..|| categoriatitulo
 
 @enduml
