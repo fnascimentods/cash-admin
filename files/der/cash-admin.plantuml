@@ -1,0 +1,25 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "TipoGrupoUsuario" as tipogrupousuario {
+  *id : number <<PK>>
+  --
+  *descricao : text
+  *sigla : char(3)
+}
+
+entity "GrupoUsuario" as grupousuario {
+  *id : number <<PK>>
+  --
+  *descricao : text
+  *id_tipo : number
+}
+
+grupousuario }|..|| tipogrupousuario
+
+@enduml
